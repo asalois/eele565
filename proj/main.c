@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define size 104857600
+#define size 1048576 //2^20
+//#define size 268435456 //2^28
+//#define size 536870912 //2^29
+//#define size 1073741824 //2^30
 
 const int M = 4;
 
-int syms[size];
-float md[size];
-float rx[size];
+int *syms;
+float *md;
+float *rx;
 
 int makeSeq(){ // make a sequence of data from 0 to M-1 
     for(int i=0; i<size; i++){
@@ -33,16 +36,19 @@ int pamDemod(){ // pam demod the data to be [0-1]
     return 0;
 } 
 
-float getBER(){
+double getBER(){
     int err = 0;
     for(int i=0; i<size; i++){
         err += ((int)rx[i])^syms[i];
     }
-    float ber = (float)err / (float)size;
+    double ber = (float)err / (float)size;
     return ber;
 }
 
 int main(){
+    syms = malloc(size*sizeof(int));
+    md = malloc(size*sizeof(float));
+    rx = malloc(size*sizeof(float));
     makeSeq();
     pamMod();
     pamDemod();
@@ -51,7 +57,7 @@ int main(){
             printf("syms[%02d] = %d md[%02d] = %f rx[%02d] = %f \n",i,syms[i],i,md[i],i,rx[i]);
         }
     }
-    float BER = getBER();
+    double BER = getBER();
     printf("BER = %f \n",BER);
     return 0;
 }
