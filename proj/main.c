@@ -1,16 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
+//#define size 64 //2^6
+//#define size 128 //2^7
+//#define size 1024 //2^10
+//#define size 4096 //2^12
 #define size 1048576 //2^20
+//#define size 2097252 //2^21
 //#define size 268435456 //2^28
 //#define size 536870912 //2^29
 //#define size 1073741824 //2^30
 
-const int M = 4;
+const int M = 16;
 
 int *syms;
-float *md;
-float *rx;
+double *md;
+double *rx;
+double *noise;
 
 int makeSeq(){ // make a sequence of data from 0 to M-1 
     for(int i=0; i<size; i++){
@@ -21,43 +28,91 @@ int makeSeq(){ // make a sequence of data from 0 to M-1
 
 int pamMod(){ // pam mod the data to be [0-1]
     for(int i=0; i<size; i++){
-        md[i] =  ((float)syms[i] / (float)(M-1));
+        md[i] =  ((double)syms[i] / (double)(M-1));
     }
     return 0;
 } 
 
 int pamDemod(){ // pam demod the data to be [0-1]
     for(int i=0; i<size; i++){
-        rx[i] = md[i] * (M-1);
+        rx[i] = (md[i] + noise[i]) * (double)(M-1);
     }
-    rx[size-1] = 0;
-    rx[size-2] = 0;
-    rx[size-3] = 0;
     return 0;
 } 
 
 double getBER(){
     int err = 0;
     for(int i=0; i<size; i++){
-        err += ((int)rx[i])^syms[i];
+        err += ((int)round(rx[i]))^syms[i];
     }
-    double ber = (float)err / (float)size;
+    double ber = (double)err / ((double)size*log2(M)) ;
     return ber;
+}
+
+double randn(double mu, double sigma)
+{
+    double U1, U2, W, mult;
+    static double X1, X2;
+    static int call = 0;
+
+    if (call == 1)
+    {
+        call = !call;
+        return (mu + sigma * (double)X2);
+    }
+
+    do
+    {
+        U1 = -1 + ((double)rand() / RAND_MAX) * 2;
+        U2 = -1 + ((double)rand() / RAND_MAX) * 2;
+        W = pow(U1, 2) + pow(U2, 2);
+    } while (W >= 1 || W == 0);
+
+    mult = sqrt((-2 * log(W)) / W);
+    X1 = U1 * mult;
+    X2 = U2 * mult;
+
+    call = !call;
+
+    return (mu + sigma * (double)X1);
+}
+
+int makeNoise(double sig)
+{ // add gausian noise
+    for (int i = 0; i < size; i++)
+    {
+        noise[i] = randn(0.0, sig);
+    }
+    return 0;
+}
+
+double getSNR()
+{ // find snr
+    double sumSig = 0;
+    double sumN = 0;
+    for (int i = 0; i < size; i++)
+    {
+        sumSig += md[i];
+        sumN += noise[i];
+    }
+    double aveSig = sumSig / size;
+    double aveN = sumN / size;
+    double sn = fabs(aveSig / aveN);
+    double snr = 10 * log10(sn);
+    return snr;
 }
 
 int main(){
     syms = malloc(size*sizeof(int));
-    md = malloc(size*sizeof(float));
-    rx = malloc(size*sizeof(float));
+    md = malloc(size*sizeof(double));
+    noise = malloc(size*sizeof(double));
+    rx = malloc(size*sizeof(double));
     makeSeq();
     pamMod();
+    makeNoise(0.01);
+    double snr = getSNR();
     pamDemod();
-    if(size<33){
-        for(int i=0; i<size; i++){ // print all the sequence and pam modded data
-            printf("syms[%02d] = %d md[%02d] = %f rx[%02d] = %f \n",i,syms[i],i,md[i],i,rx[i]);
-        }
-    }
     double BER = getBER();
-    printf("BER = %f \n",BER);
+    printf("BER = %f at %f dB SNR\n",BER,snr);
     return 0;
 }
