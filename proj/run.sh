@@ -1,4 +1,5 @@
 #!/bin/bash
 # script to compile and run proj
 gcc -o main main.c -lm -Wall
-time ./main
+./main > out.txt
+#./find_errs.sh

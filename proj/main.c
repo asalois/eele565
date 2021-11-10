@@ -3,11 +3,11 @@
 #include <stdint.h>
 #include <math.h>
 
-#define size 16
+//#define size 16
 //#define size 64 //2^6
 //#define size 128 //2^7
-// #define size 1024 //2^10
-//#define size 4096 //2^12
+//#define size 1024 //2^10
+#define size 4096 //2^12
 //#define size 1048576 //2^20
 //#define size 2097252 //2^21
 //#define size 268435456 //2^28
@@ -23,7 +23,7 @@ struct signal
 };
 
 const int M = 4;
-const int runNum = 32;
+const int runNum = 4096;
 
 struct signal makeSeq(struct signal sig)
 { // make a sequence of data from 0 to M-1
@@ -89,16 +89,24 @@ struct signal pamDemod(struct signal sig)
     return sig;
 }
 
-uint64_t getErr(struct signal sig, uint64_t prevErrs)
+uint64_t getErr(struct signal sig)
 {
-    uint64_t err = prevErrs;
+    uint64_t err = 0;
     for (int i = 0; i < size; i++)
     {
-        double rxx = sig.rx[i];
-        int txx = sig.sym 
-        printf("rx = %f sym = %d\n", sig.rx[i],sig.sym[i]);
-        printf("rx = %x sym = %x\n", (uint8_t)round(sig.rx[i]), (uint8_t)sig.sym[i]);
-        uint8_t xored = ((uint8_t)round(sig.rx[i])) ^ (uint8_t)sig.sym[i];
+        double rx = sig.rx[i];
+        int tx = sig.sym[i];
+        double rnd = round(rx);
+        if (rnd < 0)
+        {
+            rnd = 0;
+        }
+        uint8_t rxu = (uint8_t)rnd;
+        uint8_t txu = (uint8_t)tx;
+        printf("rx = %f sym = %d\n", rx, tx);
+        printf("rnd = %f sym = %d\n", rnd, tx);
+        printf("rx = %x sym = %x\n", rxu, txu);
+        uint8_t xored = rxu ^ txu;
         printf("xored = %x\n", xored);
         // Iterate through all the bits
         while (xored > 0)
@@ -111,22 +119,21 @@ uint64_t getErr(struct signal sig, uint64_t prevErrs)
 
             xored = xored >> 1;
         }
+        printf("err = %lu\n",err );
     }
     return err;
 }
 
-double getSNR(struct signal sig)
+double getSNR(struct signal sig, double sigma)
 { // find snr
     double sumSig = 0;
-    double sumN = 0;
     for (int i = 0; i < size; i++)
     {
         sumSig += sig.mod[i];
-        sumN += sig.noise[i];
     }
     double aveSig = sumSig / size;
-    double aveN = sumN / size;
-    double sn = fabs(aveSig / aveN);
+    double var = sigma*sigma;
+    double sn = fabs(aveSig * aveSig / var);
     double snr = 10 * log10(sn);
     return snr;
 }
@@ -134,18 +141,19 @@ double getSNR(struct signal sig)
 int main()
 {
     uint64_t err = 0;
+    double sigma = 0.08;
     struct signal sig;
     for (int i = 0; i < runNum; i++)
     {
         sig = makeSeq(sig);
         sig = pamMod(sig);
-        sig = makeNoise(sig, 0.08);
+        sig = makeNoise(sig, sigma);
         sig = pamDemod(sig);
-        err += getErr(sig, err);
+        err += getErr(sig);
     }
-    double snr = getSNR(sig);
+    double snr = getSNR(sig,sigma);
     int total = size * runNum;
-    int bottom = total * 8;
+    int bottom = total * log2(M);
     double BER = (double)err / (double)bottom;
     printf("errs = %lu \nTotalSims = %d \nTotalBits = %d\n", err, total, bottom);
     printf("BER = %f at %f dB SNR\n", BER, snr);
