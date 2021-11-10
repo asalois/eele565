@@ -3,9 +3,10 @@
 #include <stdint.h>
 #include <math.h>
 
+#define size 16
 //#define size 64 //2^6
 //#define size 128 //2^7
-#define size 1024 //2^10
+// #define size 1024 //2^10
 //#define size 4096 //2^12
 //#define size 1048576 //2^20
 //#define size 2097252 //2^21
@@ -22,7 +23,7 @@ struct signal
 };
 
 const int M = 4;
-const int runNum = 16;
+const int runNum = 32;
 
 struct signal makeSeq(struct signal sig)
 { // make a sequence of data from 0 to M-1
@@ -93,7 +94,12 @@ uint64_t getErr(struct signal sig, uint64_t prevErrs)
     uint64_t err = prevErrs;
     for (int i = 0; i < size; i++)
     {
+        double rxx = sig.rx[i];
+        int txx = sig.sym 
+        printf("rx = %f sym = %d\n", sig.rx[i],sig.sym[i]);
+        printf("rx = %x sym = %x\n", (uint8_t)round(sig.rx[i]), (uint8_t)sig.sym[i]);
         uint8_t xored = ((uint8_t)round(sig.rx[i])) ^ (uint8_t)sig.sym[i];
+        printf("xored = %x\n", xored);
         // Iterate through all the bits
         while (xored > 0)
         {
@@ -141,7 +147,7 @@ int main()
     int total = size * runNum;
     int bottom = total * 8;
     double BER = (double)err / (double)bottom;
-    printf("errs = %d \nTotalSims = %d \nTotalBits = %d\n", err, total, bottom);
+    printf("errs = %lu \nTotalSims = %d \nTotalBits = %d\n", err, total, bottom);
     printf("BER = %f at %f dB SNR\n", BER, snr);
 
     return 0;
