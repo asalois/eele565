@@ -23,7 +23,6 @@ struct signal
 };
 
 const int M = 4;
-const int runNum = 4096;
 
 struct signal makeSeq(struct signal sig)
 { // make a sequence of data from 0 to M-1
@@ -103,11 +102,11 @@ uint64_t getErr(struct signal sig)
         }
         uint8_t rxu = (uint8_t)rnd;
         uint8_t txu = (uint8_t)tx;
-        printf("rx = %f sym = %d\n", rx, tx);
-        printf("rnd = %f sym = %d\n", rnd, tx);
-        printf("rx = %x sym = %x\n", rxu, txu);
+        //printf("rx = %f sym = %d\n", rx, tx);
+        //printf("rnd = %f sym = %d\n", rnd, tx);
+        //printf("rx = %x sym = %x\n", rxu, txu);
         uint8_t xored = rxu ^ txu;
-        printf("xored = %x\n", xored);
+        //printf("xored = %x\n", xored);
         // Iterate through all the bits
         while (xored > 0)
         {
@@ -119,7 +118,7 @@ uint64_t getErr(struct signal sig)
 
             xored = xored >> 1;
         }
-        printf("err = %lu\n",err );
+        //printf("err = %lu\n",err );
     }
     return err;
 }
@@ -140,8 +139,9 @@ double getSNR(struct signal sig, double sigma)
 
 int main()
 {
+    uint64_t runNum = (uint64_t)pow(2,18);
     uint64_t err = 0;
-    double sigma = 0.08;
+    double sigma = 0.05;
     struct signal sig;
     for (int i = 0; i < runNum; i++)
     {
@@ -152,10 +152,11 @@ int main()
         err += getErr(sig);
     }
     double snr = getSNR(sig,sigma);
-    int total = size * runNum;
-    int bottom = total * log2(M);
+    uint64_t total = size * runNum;
+    uint64_t bottom = total * log2(M);
     double BER = (double)err / (double)bottom;
-    printf("errs = %lu \nTotalSims = %d \nTotalBits = %d\n", err, total, bottom);
+    printf("nRuns = %lu nPoints = %lu nBits = %lu\n", runNum, total, bottom);
+    printf("errs = %lu\n",err); 
     printf("BER = %f at %f dB SNR\n", BER, snr);
 
     return 0;
