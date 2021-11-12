@@ -131,7 +131,7 @@ double getSNR(struct signal sig, double sigma)
         sumSig += sig.mod[i];
     }
     double aveSig = sumSig / size;
-    double var = sigma*sigma;
+    double var = sigma * sigma;
     double sn = fabs(aveSig * aveSig / var);
     double snr = 10 * log10(sn);
     return snr;
@@ -140,26 +140,27 @@ double getSNR(struct signal sig, double sigma)
 int main()
 {
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.01};
-    for(int k = 0; k < 12; k++){
-	    uint64_t runNum = (uint64_t)pow(2,20);
-	    uint64_t err = 0;
-	    double sigma = var[k];
-	    struct signal sig;
-	    for (int i = 0; i < runNum; i++)
-	    {
-		sig = makeSeq(sig);
-		sig = pamMod(sig);
-		sig = makeNoise(sig, sigma);
-		sig = pamDemod(sig);
-		err += getErr(sig);
-	    }
-	    double snr = getSNR(sig,sigma);
-	    uint64_t total = size * runNum;
-	    uint64_t bottom = total * log2(M);
-	    double BER = (double)err / (double)bottom;
-	    printf("sigma = %f\n", sigma);
-	    printf("nRuns = %lu nPoints = %lu nBits = %lu\n", runNum, total, bottom);
-	    printf("errs = %lu BER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
+    uint64_t runNum = (uint64_t)pow(2, 10);
+    uint64_t total = size * runNum;
+    uint64_t bottom = total * log2(M);
+    printf("nRuns = %lu nPoints = %lu nBits = %lu\n\n", runNum, total, bottom);
+    for (int k = 0; k < 12; k++)
+    {
+        uint64_t err = 0;
+        double sigma = var[k];
+        struct signal sig;
+        for (int i = 0; i < runNum; i++)
+        {
+            sig = makeSeq(sig);
+            sig = pamMod(sig);
+            sig = makeNoise(sig, sigma);
+            sig = pamDemod(sig);
+            err += getErr(sig);
+        }
+        double snr = getSNR(sig, sigma);
+        double BER = (double)err / (double)bottom;
+        printf("sigma = %f\n", sigma);
+        printf("errs = %lu BER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
     return 0;
 }
