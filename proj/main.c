@@ -140,9 +140,9 @@ double getSNR(struct signal sig, double sigma)
 int main()
 {
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.01};
-    uint64_t runNum = (uint64_t)pow(2, 10);
-    uint64_t total = size * runNum;
-    uint64_t bottom = total * log2(M);
+    uint64_t runNum = (uint64_t)pow(2, 20); // the number of simulations to run
+    uint64_t total = size * runNum; // the total number of data points
+    uint64_t bottom = total * log2(M); // the total number of bits
     printf("nRuns = %lu nPoints = %lu nBits = %lu\n\n", runNum, total, bottom);
     for (int k = 0; k < 12; k++)
     {
