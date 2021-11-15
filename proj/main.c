@@ -3,11 +3,12 @@
 #include <stdint.h>
 #include <math.h>
 
-//#define size 16
 //#define size 64 //2^6
 //#define size 128 //2^7
 //#define size 1024 //2^10
-#define size 4096 //2^12
+//#define size 4096 //2^12
+//#define size 8192 //2^13
+#define size 16384 //2^14
 //#define size 1048576 //2^20
 //#define size 2097252 //2^21
 //#define size 268435456 //2^28
@@ -16,34 +17,33 @@
 
 struct signal
 {
+    int M;
     int sym[size];
     double mod[size];
     double noise[size];
     double rx[size];
 };
 
-const int M = 4;
-
 struct signal makeSeq(struct signal sig)
 { // make a sequence of data from 0 to M-1
     for (int i = 0; i < size; i++)
     {
-        sig.sym[i] = rand() % M;
+        sig.sym[i] = rand() % sig.M;
     }
     return sig;
 }
 
 struct signal pamMod(struct signal sig)
-{ // pam mod the data to be [0-1]
+{ // pam mod the data to be [0,1]
     for (int i = 0; i < size; i++)
     {
-        sig.mod[i] = ((double)sig.sym[i] / (double)(M - 1));
+        sig.mod[i] = ((double)sig.sym[i] / (double)(sig.M - 1));
     }
     return sig;
 }
 
 double randn(double mu, double sigma)
-{
+{ // get a random number based on normal distribution
     double U1, U2, W, mult;
     static double X1, X2;
     static int call = 0;
@@ -71,7 +71,7 @@ double randn(double mu, double sigma)
 }
 
 struct signal makeNoise(struct signal sig, double sigma)
-{ // add gausian noise
+{ // add gaussian noise
     for (int i = 0; i < size; i++)
     {
         sig.noise[i] = randn(0.0, sigma);
@@ -83,7 +83,7 @@ struct signal pamDemod(struct signal sig)
 { // pam demod the data to be [0, M-1]
     for (int i = 0; i < size; i++)
     {
-        sig.rx[i] = (sig.mod[i] + sig.noise[i]) * (double)(M - 1);
+        sig.rx[i] = (sig.mod[i] + sig.noise[i]) * (double)(sig.M - 1);
     }
     return sig;
 }
@@ -102,12 +102,7 @@ uint64_t getErr(struct signal sig)
         }
         uint8_t rxu = (uint8_t)rnd;
         uint8_t txu = (uint8_t)tx;
-        //printf("rx = %f sym = %d\n", rx, tx);
-        //printf("rnd = %f sym = %d\n", rnd, tx);
-        //printf("rx = %x sym = %x\n", rxu, txu);
         uint8_t xored = rxu ^ txu;
-        //printf("xored = %x\n", xored);
-        // Iterate through all the bits
         while (xored > 0)
         {
             // If current bit is 1
@@ -139,16 +134,17 @@ double getSNR(struct signal sig, double sigma)
 
 int main()
 {
-    double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.01};
+    double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
+    struct signal sig;
+    sig.M = 8;
     uint64_t runNum = (uint64_t)pow(2, 20); // the number of simulations to run
     uint64_t total = size * runNum; // the total number of data points
-    uint64_t bottom = total * log2(M); // the total number of bits
+    uint64_t bottom = total * log2(sig.M); // the total number of bits
     printf("nRuns = %lu nPoints = %lu nBits = %lu\n\n", runNum, total, bottom);
-    for (int k = 0; k < 12; k++)
+    for (int k = 0; k < 14; k++)
     {
         uint64_t err = 0;
         double sigma = var[k];
-        struct signal sig;
         for (int i = 0; i < runNum; i++)
         {
             sig = makeSeq(sig);
@@ -160,7 +156,7 @@ int main()
         double snr = getSNR(sig, sigma);
         double BER = (double)err / (double)bottom;
         printf("sigma = %f\n", sigma);
-        printf("errs = %lu BER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
+        printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
     return 0;
 }
