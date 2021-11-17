@@ -137,7 +137,7 @@ int main()
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
     struct signal sig;
     sig.M = 8;
-    uint64_t runNum = (uint64_t)pow(2, 18); // the number of simulations to run
+    uint64_t runNum = (uint64_t)pow(2, 14); // the number of simulations to run
     uint64_t total = size * runNum; // the total number of data points
     uint64_t bottom = total * log2(sig.M); // the total number of bits
     if(bottom < 1000001){ 
@@ -145,7 +145,7 @@ int main()
     }else{
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
     }
-    printf("M = %d\n\n", sig.M);
+    printf("Size = %d M = %d\n\n", (int)size, sig.M);
     for (int k = 0; k < 14; k++)
     {
         uint64_t err = 0;
