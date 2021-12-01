@@ -174,9 +174,9 @@ int main()
         for (int i = 0; i < num_threads; i++)
         {
             sig.runNum = runNum / num_threads;
-            sig = sim(sig);
+            //sig = sim(sig);
             err += sig.err;
-            rc = pthread_create(&threads[i], NULL, , (void *)t);
+            rc = pthread_create(&threads[i], NULL, sim, (void *) &sig);
             if (rc){
                 printf("ERROR: return code from pthread_create() is %d\n", rc);
                 printf("Code %d= %s\n",rc,strerror(rc));
