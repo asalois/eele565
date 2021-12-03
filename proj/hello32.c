@@ -12,15 +12,17 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define NTHREADS 32
+#define NTHREADS 300
+
 
 void *Hello(void *threadid)
 {
    int i;
    double result=0.0;
-   sleep(3);
-   for (i=0; i<10000; i++) {
-     result = result + sin(i) * tan(i);
+   sleep(1);
+   for (int i=0; i<1000000000; i++) {
+     result = (double)i*i*i;
+     result = result + i;
      }
    printf("%ld: Hello World!\n", threadid);
    pthread_exit(NULL);

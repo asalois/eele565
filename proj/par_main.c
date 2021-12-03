@@ -138,7 +138,7 @@ double getSNR(struct signal sig)
     return snr;
 }
 
-void *sim(void *data){
+void *Sim(void *data){
     struct signal sig = (struct signal *) data;
     sig.err = 0;
     for (int i = 0; i < sig.runNum; i++)
