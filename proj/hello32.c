@@ -12,7 +12,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define NTHREADS 300
+#define NTHREADS 64
 
 
 void *Hello(void *threadid)

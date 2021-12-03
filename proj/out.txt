@@ -1,63 +1,63 @@
-nRuns = 1.024e+03 nPoints = 8.389e+06 nBits = 2.517e+07
+nRuns = 2.621e+05 nPoints = 2.147e+09 nBits = 6.442e+09
 Size = 8192 M = 8
 
 sigma = 0.250000
-errs = 10574310 
-BER = 0.42 at 6.113 dB SNR
+errs = 2706983665 
+BER = 0.42 at 6.073 dB SNR
 
 sigma = 0.100000
-errs = 6430030 
-BER = 0.256 at 13.853 dB SNR
+errs = 1645443329 
+BER = 0.255 at 14.035 dB SNR
 
 sigma = 0.090000
-errs = 5805812 
-BER = 0.231 at 14.852 dB SNR
+errs = 1484584130 
+BER = 0.23 at 14.973 dB SNR
 
 sigma = 0.080000
-errs = 5054124 
-BER = 0.201 at 16.074 dB SNR
+errs = 1294974316 
+BER = 0.201 at 15.730 dB SNR
 
 sigma = 0.070000
-errs = 4188505 
-BER = 0.166 at 17.072 dB SNR
+errs = 1072271651 
+BER = 0.166 at 16.992 dB SNR
 
 sigma = 0.060000
-errs = 3188156 
-BER = 0.127 at 18.371 dB SNR
+errs = 815967047 
+BER = 0.127 at 18.368 dB SNR
 
 sigma = 0.050000
-errs = 2087246 
-BER = 0.0829 at 19.987 dB SNR
+errs = 534384284 
+BER = 0.0829 at 19.969 dB SNR
 
 sigma = 0.040000
-errs = 1013084 
-BER = 0.0403 at 21.870 dB SNR
+errs = 258720536 
+BER = 0.0402 at 21.870 dB SNR
 
 sigma = 0.030000
-errs = 235547 
-BER = 0.00936 at 24.530 dB SNR
+errs = 60285534 
+BER = 0.00936 at 24.312 dB SNR
 
 sigma = 0.025000
-errs = 58167 
-BER = 0.00231 at 26.018 dB SNR
+errs = 14912532 
+BER = 0.00231 at 25.973 dB SNR
 
 sigma = 0.020000
-errs = 4694 
-BER = 0.000187 at 27.974 dB SNR
+errs = 1241156 
+BER = 0.000193 at 27.940 dB SNR
 
 sigma = 0.015000
-errs = 12 
-BER = 4.77e-07 at 30.609 dB SNR
+errs = 6505 
+BER = 1.01e-06 at 30.455 dB SNR
 
 sigma = 0.012500
-errs = 0 
-BER = 0 at 32.057 dB SNR
+errs = 42 
+BER = 6.52e-09 at 32.032 dB SNR
 
 sigma = 0.010000
 errs = 0 
-BER = 0 at 34.021 dB SNR
+BER = 0 at 33.967 dB SNR
 
 
-real	0m8.402s
-user	0m8.390s
-sys	0m0.001s
+real	42m33.233s
+user	36m33.551s
+sys	0m0.046s
