@@ -153,14 +153,14 @@ void *Sim(void *data)
 
 int main(int argc, char *argv[])
 {
-    clock_t start = clock();
+    clock_t start = time(NULL);
     int num_threads = atoi(argv[1]);
     pthread_t threads[num_threads];
     struct signal signal_array[num_threads];
     int M = 8;
     int rc;
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-    uint64_t runNum = (uint64_t)pow(2, 11); // the number of simulations to run
+    uint64_t runNum = (uint64_t)pow(2, 20); // the number of simulations to run
     uint64_t total = size * runNum;         // the total number of data points
     uint64_t bottom = total * log2(M);      // the total number of bits
     if (bottom < 1000001)
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
     {
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
     }
-    printf("Size = %d M = %d\n\n", (int)size, M);
+    printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
     for (int k = 0; k < 14; k++)
     {
         pthread_barrier_init(&barrier, NULL, num_threads + 1);
@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
         printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
 
-    clock_t stop = clock();
-    printf("Elapsed: %.1f seconds\n", (double)(stop - start) / CLOCKS_PER_SEC);
+    clock_t stop = time(NULL);
+    printf("Elapsed: %d seconds\n\n\n", (stop - start));
     return 0;
 }
