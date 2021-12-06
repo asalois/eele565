@@ -30,22 +30,20 @@ struct signal
     uint64_t err;
 };
 
-struct signal makeSeq(struct signal sig)
+void makeSeq(struct signal *sig)
 { // make a sequence of data from 0 to M-1
     for (int i = 0; i < size; i++)
     {
-        sig.sym[i] = rand() % sig.M;
+        sig->sym[i] = rand() % sig->M;
     }
-    return sig;
 }
 
-struct signal pamMod(struct signal sig)
+void pamMod(struct signal *sig)
 { // pam mod the data to be [0,1]
     for (int i = 0; i < size; i++)
     {
-        sig.mod[i] = ((double)sig.sym[i] / (double)(sig.M - 1));
+        sig->mod[i] = ((double)sig->sym[i] / (double)(sig->M - 1));
     }
-    return sig;
 }
 
 double randn(double mu, double sigma)
@@ -76,31 +74,29 @@ double randn(double mu, double sigma)
     return (mu + sigma * (double)X1);
 }
 
-struct signal makeNoise(struct signal sig)
+void makeNoise(struct signal *sig)
 { // add gaussian noise
     for (int i = 0; i < size; i++)
     {
-        sig.noise[i] = randn(0.0, sig.sigma);
+        sig->noise[i] = randn(0.0, sig->sigma);
     }
-    return sig;
 }
 
-struct signal pamDemod(struct signal sig)
+void pamDemod(struct signal *sig)
 { // pam demod the data to be [0, M-1]
     for (int i = 0; i < size; i++)
     {
-        sig.rx[i] = (sig.mod[i] + sig.noise[i]) * (double)(sig.M - 1);
+        sig->rx[i] = (sig->mod[i] + sig->noise[i]) * (double)(sig->M - 1);
     }
-    return sig;
 }
 
-uint64_t getErr(struct signal sig)
+uint64_t getErr(struct signal *sig)
 {
     uint64_t err = 0;
     for (int i = 0; i < size; i++)
     {
-        double rx = sig.rx[i];
-        int tx = sig.sym[i];
+        double rx = sig->rx[i];
+        int tx = sig->sym[i];
         double rnd = round(rx);
         if (rnd < 0)
         {
@@ -138,54 +134,67 @@ double getSNR(struct signal sig)
     return snr;
 }
 
-void *Sim(void *data){
-    struct signal sig = (struct signal *) data;
-    sig.err = 0;
-    for (int i = 0; i < sig.runNum; i++)
+void *Sim(void *data)
+{
+    struct signal *sig;
+    sig = (struct signal *)data;
+    for (int i = 0; i < sig->runNum; i++)
     {
-        sig = makeSeq(sig);
-        sig = pamMod(sig);
-        sig = makeNoise(sig);
-        sig = pamDemod(sig);
-        sig.err += getErr(sig);
+        makeSeq(sig);
+        pamMod(sig);
+        makeNoise(sig);
+        pamDemod(sig);
+        sig->err += getErr(sig);
     }
 }
 
 int main()
 {
     pthread_t threads[num_threads];
+    struct signal signal_array[num_threads];
     int M = 8;
+    int rc;
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
     uint64_t runNum = (uint64_t)pow(2, 10); // the number of simulations to run
-    uint64_t total = size * runNum; // the total number of data points
-    uint64_t bottom = total * log2(M); // the total number of bits
-    if(bottom < 1000001){ 
+    uint64_t total = size * runNum;         // the total number of data points
+    uint64_t bottom = total * log2(M);      // the total number of bits
+    if (bottom < 1000001)
+    {
         printf("nRuns = %lu nPoints = %lu nBits = %lu\n\n", runNum, total, bottom);
-    }else{
+    }
+    else
+    {
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
     }
     printf("Size = %d M = %d\n\n", (int)size, M);
     for (int k = 0; k < 14; k++)
     {
-        uint64_t err = 0;
-        struct signal sig;
-        sig.M = M;
-        sig.sigma = var[k];
         for (int i = 0; i < num_threads; i++)
         {
-            sig.runNum = runNum / num_threads;
-            //sig = sim(sig);
-            err += sig.err;
-            rc = pthread_create(&threads[i], NULL, sim, (void *) &sig);
-            if (rc){
+            signal_array[i].M = M;
+            signal_array[i].err = 0;
+            signal_array[i].sigma = var[k];
+            signal_array[i].runNum = runNum / num_threads;
+            rc = pthread_create(&threads[i], NULL, Sim, (void *)&signal_array[i]);
+            if (rc)
+            {
                 printf("ERROR: return code from pthread_create() is %d\n", rc);
-                printf("Code %d= %s\n",rc,strerror(rc));
+                printf("Code %d= %s\n", rc, strerror(rc));
                 exit(-1);
             }
-        double snr = getSNR(sig);
+        }
+        sleep(5);
+
+        uint64_t err = 0;
+        for (int i = 0; i < num_threads; i++)
+        {
+            err += signal_array[i].err;
+        }
+        double snr = getSNR(signal_array[0]);
         double BER = (double)err / (double)bottom;
-        printf("sigma = %f\n", sig.sigma);
+        printf("sigma = %f\n", signal_array[0]);
         printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
+
     return 0;
 }
