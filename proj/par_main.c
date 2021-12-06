@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 #include <pthread.h>
+#include <time.h>
 
 //#define size 64 //2^6
 //#define size 128 //2^7
@@ -152,6 +153,7 @@ void *Sim(void *data)
 
 int main(int argc, char *argv[])
 {
+    clock_t start = clock();
     int num_threads = atoi(argv[1]);
     pthread_t threads[num_threads];
     struct signal signal_array[num_threads];
@@ -200,6 +202,7 @@ int main(int argc, char *argv[])
         printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
 
+    clock_t stop = clock();
+    printf("Elapsed: %.1f seconds\n", (double)(stop - start) / CLOCKS_PER_SEC);
     return 0;
 }
-
