@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <math.h>
 #include <pthread.h>
 
 //#define size 64 //2^6
 //#define size 128 //2^7
 //#define size 1024 //2^10
-//#define size 4096 //2^12
-#define size 8192 //2^13
+#define size 4096 //2^12
+//#define size 8192 //2^13
 //#define size 16384 //2^14
 //#define size 1048576 //2^20
 //#define size 2097252 //2^21
 //#define size 268435456 //2^28
 //#define size 536870912 //2^29
 //#define size 1073741824 //2^30
-
-#define num_threads 8
 
 struct signal
 {
@@ -29,6 +28,8 @@ struct signal
     double rx[size];
     uint64_t err;
 };
+
+pthread_barrier_t barrier;
 
 void makeSeq(struct signal *sig)
 { // make a sequence of data from 0 to M-1
@@ -146,16 +147,18 @@ void *Sim(void *data)
         pamDemod(sig);
         sig->err += getErr(sig);
     }
+    pthread_barrier_wait(&barrier);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    int num_threads = atoi(argv[1]);
     pthread_t threads[num_threads];
     struct signal signal_array[num_threads];
     int M = 8;
     int rc;
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-    uint64_t runNum = (uint64_t)pow(2, 10); // the number of simulations to run
+    uint64_t runNum = (uint64_t)pow(2, 11); // the number of simulations to run
     uint64_t total = size * runNum;         // the total number of data points
     uint64_t bottom = total * log2(M);      // the total number of bits
     if (bottom < 1000001)
@@ -169,6 +172,7 @@ int main()
     printf("Size = %d M = %d\n\n", (int)size, M);
     for (int k = 0; k < 14; k++)
     {
+        pthread_barrier_init(&barrier, NULL, num_threads + 1);
         for (int i = 0; i < num_threads; i++)
         {
             signal_array[i].M = M;
@@ -183,7 +187,7 @@ int main()
                 exit(-1);
             }
         }
-        sleep(5);
+        pthread_barrier_wait(&barrier);
 
         uint64_t err = 0;
         for (int i = 0; i < num_threads; i++)
@@ -192,9 +196,10 @@ int main()
         }
         double snr = getSNR(signal_array[0]);
         double BER = (double)err / (double)bottom;
-        printf("sigma = %f\n", signal_array[0]);
+        printf("sigma = %f\n", signal_array[0].sigma);
         printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
 
     return 0;
 }
+
