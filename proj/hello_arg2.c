@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
       exit(-1);
     }
   }
-  sleep(5);
+  sleep(3);
   sum_sum = 0;
   for (int i = 0; i < NUM_THREADS; i++)
   {
