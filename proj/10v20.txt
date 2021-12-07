@@ -1,0 +1,124 @@
+nRuns = 1.049e+06 nPoints = 4.295e+09 nBits = 1.288e+10
+Size = 4096 M = 8 threads=10
+
+sigma = 0.250000
+errs = 5413921124 
+BER = 0.42 at 5.952 dB SNR
+
+sigma = 0.100000
+errs = 3290648736 
+BER = 0.255 at 14.076 dB SNR
+
+sigma = 0.090000
+errs = 2969298959 
+BER = 0.23 at 15.135 dB SNR
+
+sigma = 0.080000
+errs = 2589886776 
+BER = 0.201 at 15.860 dB SNR
+
+sigma = 0.070000
+errs = 2144621641 
+BER = 0.166 at 17.079 dB SNR
+
+sigma = 0.060000
+errs = 1631934291 
+BER = 0.127 at 18.505 dB SNR
+
+sigma = 0.050000
+errs = 1068632553 
+BER = 0.0829 at 20.050 dB SNR
+
+sigma = 0.040000
+errs = 517476422 
+BER = 0.0402 at 21.840 dB SNR
+
+sigma = 0.030000
+errs = 120525465 
+BER = 0.00935 at 24.368 dB SNR
+
+sigma = 0.025000
+errs = 29830056 
+BER = 0.00232 at 26.143 dB SNR
+
+sigma = 0.020000
+errs = 2477649 
+BER = 0.000192 at 27.990 dB SNR
+
+sigma = 0.015000
+errs = 13543 
+BER = 1.05e-06 at 30.480 dB SNR
+
+sigma = 0.012500
+errs = 91 
+BER = 7.06e-09 at 32.036 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.057 dB SNR
+
+Elapsed: 25355 seconds
+
+
+nRuns = 1.049e+06 nPoints = 4.295e+09 nBits = 1.288e+10
+Size = 4096 M = 8 threads=20
+
+sigma = 0.250000
+errs = 5413687168 
+BER = 0.42 at 6.046 dB SNR
+
+sigma = 0.100000
+errs = 3290546788 
+BER = 0.255 at 13.846 dB SNR
+
+sigma = 0.090000
+errs = 2969073361 
+BER = 0.23 at 14.940 dB SNR
+
+sigma = 0.080000
+errs = 2589844984 
+BER = 0.201 at 16.023 dB SNR
+
+sigma = 0.070000
+errs = 2144636614 
+BER = 0.166 at 17.132 dB SNR
+
+sigma = 0.060000
+errs = 1631859194 
+BER = 0.127 at 18.486 dB SNR
+
+sigma = 0.050000
+errs = 1068801486 
+BER = 0.0829 at 19.909 dB SNR
+
+sigma = 0.040000
+errs = 517497125 
+BER = 0.0402 at 22.118 dB SNR
+
+sigma = 0.030000
+errs = 120528359 
+BER = 0.00935 at 24.408 dB SNR
+
+sigma = 0.025000
+errs = 29835718 
+BER = 0.00232 at 26.143 dB SNR
+
+sigma = 0.020000
+errs = 2475278 
+BER = 0.000192 at 27.943 dB SNR
+
+sigma = 0.015000
+errs = 13734 
+BER = 1.07e-06 at 30.434 dB SNR
+
+sigma = 0.012500
+errs = 74 
+BER = 5.74e-09 at 32.041 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.065 dB SNR
+
+Elapsed: 25230 seconds
+
+
