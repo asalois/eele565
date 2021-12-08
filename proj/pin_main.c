@@ -10,8 +10,8 @@
 //#define size 128 //2^7
 //#define size 1024 //2^10
 //#define size 4096 //2^12
-#define size 8192 //2^13
-//#define size 16384 //2^14
+//#define size 8192 //2^13
+#define size 16384 //2^14
 //#define size 1048576 //2^20
 //#define size 2097252 //2^21
 //#define size 268435456 //2^28
@@ -140,16 +140,15 @@ void *Sim(void *data)
 {
     struct signal *sig;
     sig = (struct signal *)data;
-    makeNoise(sig);
     for (int i = 0; i < sig->runNum; i++)
     {
         makeSeq(sig);
         pamMod(sig);
+        makeNoise(sig);
         pamDemod(sig);
         sig->err += getErr(sig);
     }
     pthread_barrier_wait(&barrier);
-    pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[])
@@ -161,7 +160,7 @@ int main(int argc, char *argv[])
     int M = 8;
     int rc;
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-    uint64_t runNum = (uint64_t)pow(2, 16); // the number of simulations to run
+    uint64_t runNum = (uint64_t)pow(2, 13); // the number of simulations to run
     uint64_t total = size * runNum;         // the total number of data points
     uint64_t bottom = total * log2(M);      // the total number of bits
     if (bottom < 1000001)

@@ -149,19 +149,19 @@ void *Sim(void *data)
         sig->err += getErr(sig);
     }
     pthread_barrier_wait(&barrier);
-    pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[])
 {
     clock_t start = time(NULL);
     int num_threads = atoi(argv[1]);
+    int snr_num = 14;
     pthread_t threads[num_threads];
-    struct signal signal_array[num_threads];
+    struct signal signal_array[snr_num];
     int M = 8;
     int rc;
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-    uint64_t runNum = (uint64_t)pow(2, 16); // the number of simulations to run
+    uint64_t runNum = (uint64_t)pow(2, 13); // the number of simulations to run
     uint64_t total = size * runNum;         // the total number of data points
     uint64_t bottom = total * log2(M);      // the total number of bits
     if (bottom < 1000001)
@@ -173,16 +173,25 @@ int main(int argc, char *argv[])
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
     }
     printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
-    for (int k = 0; k < 14; k++)
+    for (int k = 0; k < snr_num; k++)
     {
         pthread_barrier_init(&barrier, NULL, num_threads + 1);
         for (int i = 0; i < num_threads; i++)
         {
-            signal_array[i].M = M;
-            signal_array[i].err = 0;
-            signal_array[i].sigma = var[k];
-            signal_array[i].runNum = runNum / num_threads;
-            rc = pthread_create(&threads[i], NULL, Sim, (void *)&signal_array[i]);
+            k += i;
+            if (k >= 14)
+            {
+                printf("i=%d k=%d\n",i,k);
+                for(int j=0; j<(num_threads - i -1); j++){
+                    pthread_barrier_wait(&barrier);
+                }
+                break;
+            }
+            signal_array[k].M = M;
+            signal_array[k].err = 0;
+            signal_array[k].sigma = var[k];
+            signal_array[k].runNum = runNum;
+            rc = pthread_create(&threads[k], NULL, Sim, (void *)&signal_array[k]);
             if (rc)
             {
                 printf("ERROR: return code from pthread_create() is %d\n", rc);
@@ -191,17 +200,15 @@ int main(int argc, char *argv[])
             }
         }
         pthread_barrier_wait(&barrier);
-        uint64_t err = 0;
-        for (int i = 0; i < num_threads; i++)
-        {
-            err += signal_array[i].err;
-        }
-        double snr = getSNR(signal_array[0]);
-        double BER = (double)err / (double)bottom;
-        printf("sigma = %f\n", signal_array[0].sigma);
-        printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", err, BER, snr);
     }
 
+    for (int i = 0; i < snr_num; i++)
+    {
+        double snr = getSNR(signal_array[i]);
+        double BER = (double)signal_array[i].err / (double)bottom;
+        printf("sigma = %f\n", signal_array[i].sigma);
+        printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", signal_array[i].err, BER, snr);
+    }
     clock_t stop = time(NULL);
     printf("Elapsed: %d seconds\n\n\n", (stop - start));
     pthread_exit(NULL);
