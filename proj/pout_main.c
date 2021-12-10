@@ -160,6 +160,7 @@ int main(int argc, char *argv[])
     struct signal signal_array[snr_num];
     int M = 8;
     int rc;
+    int bar_num;
     double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
     uint64_t runNum = (uint64_t)pow(2, 13); // the number of simulations to run
     uint64_t total = size * runNum;         // the total number of data points
@@ -173,33 +174,56 @@ int main(int argc, char *argv[])
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
     }
     printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
-    for (int k = 0; k < snr_num; k++)
+    int k = 0;
+    while (k < snr_num)
     {
-        pthread_barrier_init(&barrier, NULL, num_threads + 1);
-        for (int i = 0; i < num_threads; i++)
+        int over_flow = snr_num % num_threads;
+        if (k + num_threads > snr_num && over_flow != 0)
         {
-            k += i;
-            if (k >= 14)
+            bar_num = over_flow + 1;
+            printf("bar_num= %d\n", bar_num);
+            pthread_barrier_init(&barrier, NULL, bar_num);
+            for (int i = 0; i < over_flow; i++)
             {
-                printf("i=%d k=%d\n",i,k);
-                for(int j=0; j<(num_threads - i -1); j++){
-                    pthread_barrier_wait(&barrier);
+                printf("k= %d\n", k);
+                signal_array[k].M = M;
+                signal_array[k].err = 0;
+                signal_array[k].sigma = var[k];
+                signal_array[k].runNum = runNum;
+                rc = pthread_create(&threads[k], NULL, Sim, (void *)&signal_array[k]);
+                k++;
+                if (rc)
+                {
+                    printf("ERROR: return code from pthread_create() is %d\n", rc);
+                    printf("Code %d= %s\n", rc, strerror(rc));
+                    exit(-1);
                 }
-                break;
             }
-            signal_array[k].M = M;
-            signal_array[k].err = 0;
-            signal_array[k].sigma = var[k];
-            signal_array[k].runNum = runNum;
-            rc = pthread_create(&threads[k], NULL, Sim, (void *)&signal_array[k]);
-            if (rc)
-            {
-                printf("ERROR: return code from pthread_create() is %d\n", rc);
-                printf("Code %d= %s\n", rc, strerror(rc));
-                exit(-1);
-            }
+            pthread_barrier_wait(&barrier);
         }
-        pthread_barrier_wait(&barrier);
+        else
+        {
+            bar_num = num_threads + 1;
+            printf("bar_num= %d\n", bar_num);
+            pthread_barrier_init(&barrier, NULL, bar_num);
+            for (int i = 0; i < num_threads; i++)
+            {
+                printf("k= %d\n", k);
+                signal_array[k].M = M;
+                signal_array[k].err = 0;
+                signal_array[k].sigma = var[k];
+                signal_array[k].runNum = runNum;
+                rc = pthread_create(&threads[k], NULL, Sim, (void *)&signal_array[k]);
+                k++;
+                if (rc)
+                {
+                    printf("ERROR: return code from pthread_create() is %d\n", rc);
+                    printf("Code %d= %s\n", rc, strerror(rc));
+                    exit(-1);
+                }
+            }
+            pthread_barrier_wait(&barrier);
+        }
     }
 
     for (int i = 0; i < snr_num; i++)
