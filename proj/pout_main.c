@@ -33,7 +33,7 @@ struct signal
 struct thread_data
 {
     int num;
-    struct signal *que[14]
+    struct signal *que[14];
 };
 
 pthread_barrier_t barrier;
@@ -120,11 +120,11 @@ uint64_t getErr(struct signal *sig)
             {
                 err++;
             }
-
-            xored = xored >> 1;
         }
-        //printf("err = %lu\n",err );
+
+        xored = xored >> 1;
     }
+    //printf("err = %lu\n",err );
     return err;
 }
 
@@ -176,9 +176,9 @@ int main(int argc, char *argv[])
         struct signal signal_array[snr_num];
         struct thread_data data[num_threads];
         int M = 8;
-        int rc, i, idx, bar_num;
+        int rc, i, idx;
         double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-        uint64_t runNum = (uint64_t)pow(2, 14); // the number of simulations to run
+        uint64_t runNum = (uint64_t)pow(2, 15); // the number of simulations to run
         uint64_t total = size * runNum;         // the total number of data points
         for (i = 0; i < num_threads; i++)
         {
