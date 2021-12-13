@@ -189,11 +189,20 @@ int main(int argc, char *argv[])
         else if (num_threads < 14)
         {
             int idx = (i + 1) % num_threads;
-            data[idx].num = 1;
-            data[idx].que[1] = &signal_array[i];
-        }
-        else
-        {
+            data[idx].que[i / num_threads] = &signal_array[i];
+            if (snr_num % num_threads == 0)
+            {
+                data[idx].num = snr_num / num_threads;
+            }
+            else if (idx)
+            {
+                data[idx].num = snr_num / num_threads;
+            }
+            else
+            {
+
+                data[idx].num = (int)round((double)snr_num / num_threads);
+            }
         }
     }
     if (bottom < 1000001)
