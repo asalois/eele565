@@ -165,77 +165,61 @@ int main(int argc, char *argv[])
 {
     clock_t start = time(NULL);
     int num_threads = atoi(argv[1]);
-    int snr_num = 14;
-    pthread_t threads[num_threads];
-    struct signal signal_array[snr_num];
-    struct thread_data data[num_threads];
-    int M = 8;
-    int rc, i, bar_num;
-    double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-    uint64_t runNum = (uint64_t)pow(2, 13); // the number of simulations to run
-    uint64_t total = size * runNum;         // the total number of data points
-    uint64_t bottom = total * log2(M);      // the total number of bits
-    for (i = 0; i < snr_num; i++)
-    { // init struct array
-        signal_array[i].M = M;
-        signal_array[i].err = 0;
-        signal_array[i].sigma = var[i];
-        signal_array[i].runNum = runNum;
-        if (num_threads == 1)
-        {
-            data[0].num = 14;
-            data[0].que[i] = &signal_array[i];
-        }
-        else if (num_threads < 14)
-        {
-            int idx = (i + 1) % num_threads;
-            data[idx].que[i / num_threads] = &signal_array[i];
-            if (snr_num % num_threads == 0)
-            {
-                data[idx].num = snr_num / num_threads;
-            }
-            else if (idx)
-            {
-                data[idx].num = snr_num / num_threads;
-            }
-            else
-            {
-
-                data[idx].num = (int)round((double)snr_num / num_threads);
-            }
-        }
-    }
-    if (bottom < 1000001)
+    if (num_threads > 14 || num_threads < 1)
     {
-        printf("nRuns = %lu nPoints = %lu nBits = %lu\n\n", runNum, total, bottom);
+        printf("Please pick a value in [1,14]\n");
     }
     else
     {
-        printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
-    }
-    printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
-    pthread_barrier_init(&barrier, NULL, num_threads + 1);
-    for (i = 0; i < num_threads; i++)
-    {
-        rc = pthread_create(&threads[i], NULL, Sim, (void *)&data[i]);
-        if (rc)
+        int snr_num = 14;
+        pthread_t threads[num_threads];
+        struct signal signal_array[snr_num];
+        struct thread_data data[num_threads];
+        int M = 8;
+        int rc, i, idx, bar_num;
+        double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
+        uint64_t runNum = (uint64_t)pow(2, 14); // the number of simulations to run
+        uint64_t total = size * runNum;         // the total number of data points
+        for (i = 0; i < num_threads; i++)
         {
-            printf("ERROR: return code from pthread_create() is %d\n", rc);
-            printf("Code %d= %s\n", rc, strerror(rc));
-            exit(-1);
+            data[i].num = 0;
         }
-    }
-    pthread_barrier_wait(&barrier);
+        uint64_t bottom = total * log2(M); // the total number of bits
+        for (i = 0; i < snr_num; i++)
+        { // init struct array
+            signal_array[i].M = M;
+            signal_array[i].err = 0;
+            signal_array[i].sigma = var[i];
+            signal_array[i].runNum = runNum;
+            idx = i % num_threads;
+            data[idx].que[data[idx].num] = &signal_array[i];
+            data[idx].num += 1;
+        }
+        printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
+        printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
+        pthread_barrier_init(&barrier, NULL, num_threads + 1);
+        for (i = 0; i < num_threads; i++)
+        {
+            rc = pthread_create(&threads[i], NULL, Sim, (void *)&data[i]);
+            if (rc)
+            {
+                printf("ERROR: return code from pthread_create() is %d\n", rc);
+                printf("Code %d= %s\n", rc, strerror(rc));
+                exit(-1);
+            }
+        }
+        pthread_barrier_wait(&barrier);
 
-    for (int i = 0; i < snr_num; i++)
-    {
-        double snr = getSNR(signal_array[i]);
-        double BER = (double)signal_array[i].err / (double)bottom;
-        printf("sigma = %f\n", signal_array[i].sigma);
-        printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", signal_array[i].err, BER, snr);
+        for (int i = 0; i < snr_num; i++)
+        {
+            double snr = getSNR(signal_array[i]);
+            double BER = (double)signal_array[i].err / (double)bottom;
+            printf("sigma = %f\n", signal_array[i].sigma);
+            printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", signal_array[i].err, BER, snr);
+        }
+        clock_t stop = time(NULL);
+        printf("Elapsed: %d seconds\n\n\n", (stop - start));
+        pthread_exit(NULL);
     }
-    clock_t stop = time(NULL);
-    printf("Elapsed: %d seconds\n\n\n", (stop - start));
-    pthread_exit(NULL);
     return 0;
 }
