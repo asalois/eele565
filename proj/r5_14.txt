@@ -1,0 +1,904 @@
+Architecture:                    x86_64
+CPU op-mode(s):                  32-bit, 64-bit
+Byte Order:                      Little Endian
+Address sizes:                   48 bits physical, 48 bits virtual
+CPU(s):                          12
+On-line CPU(s) list:             0-11
+Thread(s) per core:              2
+Core(s) per socket:              6
+Socket(s):                       1
+NUMA node(s):                    1
+Vendor ID:                       AuthenticAMD
+CPU family:                      23
+Model:                           96
+Model name:                      AMD Ryzen 5 4600U with Radeon Graphics
+Stepping:                        1
+Frequency boost:                 enabled
+CPU MHz:                         1400.000
+CPU max MHz:                     2100.0000
+CPU min MHz:                     1400.0000
+BogoMIPS:                        4192.25
+Virtualization:                  AMD-V
+L1d cache:                       192 KiB
+L1i cache:                       192 KiB
+L2 cache:                        3 MiB
+L3 cache:                        8 MiB
+NUMA node0 CPU(s):               0-11
+Vulnerability Itlb multihit:     Not affected
+Vulnerability L1tf:              Not affected
+Vulnerability Mds:               Not affected
+Vulnerability Meltdown:          Not affected
+Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:        Mitigation; Full AMD retpoline, IBPB conditional, IBRS_FW, STIBP conditional, RSB filling
+Vulnerability Srbds:             Not affected
+Vulnerability Tsx async abort:   Not affected
+Flags:                           fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip rdpid overflow_recov succor smca
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=1
+
+sigma = 0.250000
+errs = 169916622 
+BER = 0.422 at 6.054 dB SNR
+
+sigma = 0.100000
+errs = 102584404 
+BER = 0.255 at 13.985 dB SNR
+
+sigma = 0.090000
+errs = 89889648 
+BER = 0.223 at 14.974 dB SNR
+
+sigma = 0.080000
+errs = 80205640 
+BER = 0.199 at 15.972 dB SNR
+
+sigma = 0.070000
+errs = 66866965 
+BER = 0.166 at 17.105 dB SNR
+
+sigma = 0.060000
+errs = 50765895 
+BER = 0.126 at 18.327 dB SNR
+
+sigma = 0.050000
+errs = 33725728 
+BER = 0.0838 at 19.970 dB SNR
+
+sigma = 0.040000
+errs = 17148681 
+BER = 0.0426 at 21.942 dB SNR
+
+sigma = 0.030000
+errs = 3457978 
+BER = 0.00859 at 24.424 dB SNR
+
+sigma = 0.025000
+errs = 921658 
+BER = 0.00229 at 26.012 dB SNR
+
+sigma = 0.020000
+errs = 219468 
+BER = 0.000545 at 27.879 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.359 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.066 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.008 dB SNR
+
+Elapsed: 54 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=2
+
+sigma = 0.250000
+errs = 168317182 
+BER = 0.418 at 6.051 dB SNR
+
+sigma = 0.100000
+errs = 103130520 
+BER = 0.256 at 13.958 dB SNR
+
+sigma = 0.090000
+errs = 93904689 
+BER = 0.233 at 14.894 dB SNR
+
+sigma = 0.080000
+errs = 81006535 
+BER = 0.201 at 15.947 dB SNR
+
+sigma = 0.070000
+errs = 67783446 
+BER = 0.168 at 17.087 dB SNR
+
+sigma = 0.060000
+errs = 49941490 
+BER = 0.124 at 18.458 dB SNR
+
+sigma = 0.050000
+errs = 34072840 
+BER = 0.0846 at 20.118 dB SNR
+
+sigma = 0.040000
+errs = 15799496 
+BER = 0.0392 at 21.973 dB SNR
+
+sigma = 0.030000
+errs = 4016376 
+BER = 0.00997 at 24.516 dB SNR
+
+sigma = 0.025000
+errs = 735471 
+BER = 0.00183 at 26.074 dB SNR
+
+sigma = 0.020000
+errs = 115099 
+BER = 0.000286 at 27.960 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.433 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.046 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.027 dB SNR
+
+Elapsed: 35 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=3
+
+sigma = 0.250000
+errs = 167441550 
+BER = 0.416 at 5.991 dB SNR
+
+sigma = 0.100000
+errs = 102580073 
+BER = 0.255 at 14.055 dB SNR
+
+sigma = 0.090000
+errs = 93580872 
+BER = 0.232 at 14.816 dB SNR
+
+sigma = 0.080000
+errs = 78533118 
+BER = 0.195 at 15.817 dB SNR
+
+sigma = 0.070000
+errs = 67011666 
+BER = 0.166 at 16.995 dB SNR
+
+sigma = 0.060000
+errs = 50828606 
+BER = 0.126 at 18.366 dB SNR
+
+sigma = 0.050000
+errs = 32477164 
+BER = 0.0807 at 19.968 dB SNR
+
+sigma = 0.040000
+errs = 17106264 
+BER = 0.0425 at 22.005 dB SNR
+
+sigma = 0.030000
+errs = 3432965 
+BER = 0.00853 at 24.268 dB SNR
+
+sigma = 0.025000
+errs = 752407 
+BER = 0.00187 at 26.090 dB SNR
+
+sigma = 0.020000
+errs = 98214 
+BER = 0.000244 at 27.946 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.486 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.042 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.958 dB SNR
+
+Elapsed: 66 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=4
+
+sigma = 0.250000
+errs = 167556953 
+BER = 0.416 at 5.941 dB SNR
+
+sigma = 0.100000
+errs = 101965929 
+BER = 0.253 at 13.992 dB SNR
+
+sigma = 0.090000
+errs = 92581256 
+BER = 0.23 at 14.960 dB SNR
+
+sigma = 0.080000
+errs = 80853075 
+BER = 0.201 at 15.848 dB SNR
+
+sigma = 0.070000
+errs = 66328529 
+BER = 0.165 at 17.088 dB SNR
+
+sigma = 0.060000
+errs = 51870669 
+BER = 0.129 at 18.402 dB SNR
+
+sigma = 0.050000
+errs = 33560736 
+BER = 0.0833 at 19.928 dB SNR
+
+sigma = 0.040000
+errs = 15609166 
+BER = 0.0388 at 21.911 dB SNR
+
+sigma = 0.030000
+errs = 3950819 
+BER = 0.00981 at 24.465 dB SNR
+
+sigma = 0.025000
+errs = 973682 
+BER = 0.00242 at 26.073 dB SNR
+
+sigma = 0.020000
+errs = 45194 
+BER = 0.000112 at 28.015 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.562 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.026 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.970 dB SNR
+
+Elapsed: 94 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=5
+
+sigma = 0.250000
+errs = 172611949 
+BER = 0.429 at 6.091 dB SNR
+
+sigma = 0.100000
+errs = 104271300 
+BER = 0.259 at 13.973 dB SNR
+
+sigma = 0.090000
+errs = 92185749 
+BER = 0.229 at 14.907 dB SNR
+
+sigma = 0.080000
+errs = 81180274 
+BER = 0.202 at 15.920 dB SNR
+
+sigma = 0.070000
+errs = 65586954 
+BER = 0.163 at 17.088 dB SNR
+
+sigma = 0.060000
+errs = 52115404 
+BER = 0.129 at 18.396 dB SNR
+
+sigma = 0.050000
+errs = 33956561 
+BER = 0.0843 at 20.033 dB SNR
+
+sigma = 0.040000
+errs = 15500304 
+BER = 0.0385 at 22.004 dB SNR
+
+sigma = 0.030000
+errs = 3916543 
+BER = 0.00973 at 24.458 dB SNR
+
+sigma = 0.025000
+errs = 810851 
+BER = 0.00201 at 25.998 dB SNR
+
+sigma = 0.020000
+errs = 53201 
+BER = 0.000132 at 27.981 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.383 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.018 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.983 dB SNR
+
+Elapsed: 140 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=6
+
+sigma = 0.250000
+errs = 168454697 
+BER = 0.418 at 6.047 dB SNR
+
+sigma = 0.100000
+errs = 104790225 
+BER = 0.26 at 13.989 dB SNR
+
+sigma = 0.090000
+errs = 94463894 
+BER = 0.235 at 14.974 dB SNR
+
+sigma = 0.080000
+errs = 81844233 
+BER = 0.203 at 15.867 dB SNR
+
+sigma = 0.070000
+errs = 67474445 
+BER = 0.168 at 17.140 dB SNR
+
+sigma = 0.060000
+errs = 49450635 
+BER = 0.123 at 18.370 dB SNR
+
+sigma = 0.050000
+errs = 35699075 
+BER = 0.0887 at 19.992 dB SNR
+
+sigma = 0.040000
+errs = 14717449 
+BER = 0.0366 at 21.919 dB SNR
+
+sigma = 0.030000
+errs = 3823610 
+BER = 0.0095 at 24.354 dB SNR
+
+sigma = 0.025000
+errs = 1113113 
+BER = 0.00276 at 25.969 dB SNR
+
+sigma = 0.020000
+errs = 182462 
+BER = 0.000453 at 28.003 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.564 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.027 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.038 dB SNR
+
+Elapsed: 183 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=7
+
+sigma = 0.250000
+errs = 170517413 
+BER = 0.423 at 5.932 dB SNR
+
+sigma = 0.100000
+errs = 103434304 
+BER = 0.257 at 14.031 dB SNR
+
+sigma = 0.090000
+errs = 89903186 
+BER = 0.223 at 14.920 dB SNR
+
+sigma = 0.080000
+errs = 80374208 
+BER = 0.2 at 15.838 dB SNR
+
+sigma = 0.070000
+errs = 66732846 
+BER = 0.166 at 17.194 dB SNR
+
+sigma = 0.060000
+errs = 50739607 
+BER = 0.126 at 18.406 dB SNR
+
+sigma = 0.050000
+errs = 33816662 
+BER = 0.084 at 20.067 dB SNR
+
+sigma = 0.040000
+errs = 15271712 
+BER = 0.0379 at 21.925 dB SNR
+
+sigma = 0.030000
+errs = 3482741 
+BER = 0.00865 at 24.373 dB SNR
+
+sigma = 0.025000
+errs = 1048530 
+BER = 0.0026 at 25.962 dB SNR
+
+sigma = 0.020000
+errs = 61502 
+BER = 0.000153 at 27.925 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.392 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.058 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.930 dB SNR
+
+Elapsed: 250 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=8
+
+sigma = 0.250000
+errs = 171275848 
+BER = 0.425 at 6.123 dB SNR
+
+sigma = 0.100000
+errs = 102502738 
+BER = 0.255 at 13.974 dB SNR
+
+sigma = 0.090000
+errs = 94540486 
+BER = 0.235 at 14.941 dB SNR
+
+sigma = 0.080000
+errs = 81066089 
+BER = 0.201 at 15.852 dB SNR
+
+sigma = 0.070000
+errs = 66422565 
+BER = 0.165 at 17.007 dB SNR
+
+sigma = 0.060000
+errs = 51525642 
+BER = 0.128 at 18.457 dB SNR
+
+sigma = 0.050000
+errs = 34121810 
+BER = 0.0847 at 20.011 dB SNR
+
+sigma = 0.040000
+errs = 16768320 
+BER = 0.0416 at 21.888 dB SNR
+
+sigma = 0.030000
+errs = 3391605 
+BER = 0.00842 at 24.488 dB SNR
+
+sigma = 0.025000
+errs = 1146951 
+BER = 0.00285 at 26.008 dB SNR
+
+sigma = 0.020000
+errs = 30712 
+BER = 7.63e-05 at 27.965 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.530 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.042 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.834 dB SNR
+
+Elapsed: 246 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=9
+
+sigma = 0.250000
+errs = 169943726 
+BER = 0.422 at 6.035 dB SNR
+
+sigma = 0.100000
+errs = 101357326 
+BER = 0.252 at 13.962 dB SNR
+
+sigma = 0.090000
+errs = 95866704 
+BER = 0.238 at 14.835 dB SNR
+
+sigma = 0.080000
+errs = 78635451 
+BER = 0.195 at 15.857 dB SNR
+
+sigma = 0.070000
+errs = 68797507 
+BER = 0.171 at 17.070 dB SNR
+
+sigma = 0.060000
+errs = 52179555 
+BER = 0.13 at 18.388 dB SNR
+
+sigma = 0.050000
+errs = 32172004 
+BER = 0.0799 at 19.947 dB SNR
+
+sigma = 0.040000
+errs = 15815400 
+BER = 0.0393 at 21.964 dB SNR
+
+sigma = 0.030000
+errs = 3324432 
+BER = 0.00826 at 24.448 dB SNR
+
+sigma = 0.025000
+errs = 676082 
+BER = 0.00168 at 26.094 dB SNR
+
+sigma = 0.020000
+errs = 30579 
+BER = 7.59e-05 at 28.127 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.546 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.082 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.868 dB SNR
+
+Elapsed: 233 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=10
+
+sigma = 0.250000
+errs = 170240510 
+BER = 0.423 at 6.051 dB SNR
+
+sigma = 0.100000
+errs = 100880319 
+BER = 0.251 at 14.006 dB SNR
+
+sigma = 0.090000
+errs = 91985509 
+BER = 0.228 at 14.964 dB SNR
+
+sigma = 0.080000
+errs = 80785524 
+BER = 0.201 at 16.006 dB SNR
+
+sigma = 0.070000
+errs = 69723596 
+BER = 0.173 at 17.111 dB SNR
+
+sigma = 0.060000
+errs = 51434618 
+BER = 0.128 at 18.541 dB SNR
+
+sigma = 0.050000
+errs = 33321355 
+BER = 0.0828 at 19.994 dB SNR
+
+sigma = 0.040000
+errs = 17342677 
+BER = 0.0431 at 21.816 dB SNR
+
+sigma = 0.030000
+errs = 3827241 
+BER = 0.00951 at 24.458 dB SNR
+
+sigma = 0.025000
+errs = 971790 
+BER = 0.00241 at 26.008 dB SNR
+
+sigma = 0.020000
+errs = 0 
+BER = 0 at 27.993 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.570 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.093 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.119 dB SNR
+
+Elapsed: 232 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=11
+
+sigma = 0.250000
+errs = 167218490 
+BER = 0.415 at 6.011 dB SNR
+
+sigma = 0.100000
+errs = 103795892 
+BER = 0.258 at 13.896 dB SNR
+
+sigma = 0.090000
+errs = 96379337 
+BER = 0.239 at 14.783 dB SNR
+
+sigma = 0.080000
+errs = 81717704 
+BER = 0.203 at 15.888 dB SNR
+
+sigma = 0.070000
+errs = 66092681 
+BER = 0.164 at 17.097 dB SNR
+
+sigma = 0.060000
+errs = 50755033 
+BER = 0.126 at 18.403 dB SNR
+
+sigma = 0.050000
+errs = 34100346 
+BER = 0.0847 at 19.899 dB SNR
+
+sigma = 0.040000
+errs = 15949890 
+BER = 0.0396 at 22.012 dB SNR
+
+sigma = 0.030000
+errs = 3950186 
+BER = 0.00981 at 24.402 dB SNR
+
+sigma = 0.025000
+errs = 875945 
+BER = 0.00218 at 26.143 dB SNR
+
+sigma = 0.020000
+errs = 61545 
+BER = 0.000153 at 27.975 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.484 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.039 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.930 dB SNR
+
+Elapsed: 238 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=12
+
+sigma = 0.250000
+errs = 171103761 
+BER = 0.425 at 5.883 dB SNR
+
+sigma = 0.100000
+errs = 103298170 
+BER = 0.257 at 14.001 dB SNR
+
+sigma = 0.090000
+errs = 93298531 
+BER = 0.232 at 14.941 dB SNR
+
+sigma = 0.080000
+errs = 80938212 
+BER = 0.201 at 15.868 dB SNR
+
+sigma = 0.070000
+errs = 65924301 
+BER = 0.164 at 17.192 dB SNR
+
+sigma = 0.060000
+errs = 50505343 
+BER = 0.125 at 18.420 dB SNR
+
+sigma = 0.050000
+errs = 34428094 
+BER = 0.0855 at 20.068 dB SNR
+
+sigma = 0.040000
+errs = 16850720 
+BER = 0.0418 at 21.971 dB SNR
+
+sigma = 0.030000
+errs = 3959890 
+BER = 0.00983 at 24.433 dB SNR
+
+sigma = 0.025000
+errs = 960736 
+BER = 0.00239 at 26.011 dB SNR
+
+sigma = 0.020000
+errs = 67606 
+BER = 0.000168 at 27.985 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.536 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.068 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.930 dB SNR
+
+Elapsed: 249 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=13
+
+sigma = 0.250000
+errs = 169638551 
+BER = 0.421 at 6.037 dB SNR
+
+sigma = 0.100000
+errs = 101812898 
+BER = 0.253 at 14.119 dB SNR
+
+sigma = 0.090000
+errs = 93635408 
+BER = 0.233 at 14.904 dB SNR
+
+sigma = 0.080000
+errs = 80479764 
+BER = 0.2 at 15.982 dB SNR
+
+sigma = 0.070000
+errs = 68315207 
+BER = 0.17 at 17.129 dB SNR
+
+sigma = 0.060000
+errs = 52432707 
+BER = 0.13 at 18.310 dB SNR
+
+sigma = 0.050000
+errs = 32365487 
+BER = 0.0804 at 19.910 dB SNR
+
+sigma = 0.040000
+errs = 16561063 
+BER = 0.0411 at 21.920 dB SNR
+
+sigma = 0.030000
+errs = 3147723 
+BER = 0.00782 at 24.337 dB SNR
+
+sigma = 0.025000
+errs = 790200 
+BER = 0.00196 at 26.130 dB SNR
+
+sigma = 0.020000
+errs = 53265 
+BER = 0.000132 at 27.958 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.465 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 32.134 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 33.987 dB SNR
+
+Elapsed: 276 seconds
+
+
+nRuns = 1.638e+04 nPoints = 1.342e+08 nBits = 4.027e+08
+Size = 8192 M = 8 threads=14
+
+sigma = 0.250000
+errs = 168731506 
+BER = 0.419 at 6.061 dB SNR
+
+sigma = 0.100000
+errs = 103556026 
+BER = 0.257 at 13.958 dB SNR
+
+sigma = 0.090000
+errs = 94841403 
+BER = 0.236 at 14.888 dB SNR
+
+sigma = 0.080000
+errs = 83760788 
+BER = 0.208 at 15.936 dB SNR
+
+sigma = 0.070000
+errs = 66588279 
+BER = 0.165 at 17.096 dB SNR
+
+sigma = 0.060000
+errs = 52037455 
+BER = 0.129 at 18.485 dB SNR
+
+sigma = 0.050000
+errs = 30967965 
+BER = 0.0769 at 19.882 dB SNR
+
+sigma = 0.040000
+errs = 15758909 
+BER = 0.0391 at 21.983 dB SNR
+
+sigma = 0.030000
+errs = 3848223 
+BER = 0.00956 at 24.375 dB SNR
+
+sigma = 0.025000
+errs = 724575 
+BER = 0.0018 at 26.045 dB SNR
+
+sigma = 0.020000
+errs = 83803 
+BER = 0.000208 at 27.934 dB SNR
+
+sigma = 0.015000
+errs = 0 
+BER = 0 at 30.502 dB SNR
+
+sigma = 0.012500
+errs = 0 
+BER = 0 at 31.994 dB SNR
+
+sigma = 0.010000
+errs = 0 
+BER = 0 at 34.061 dB SNR
+
+Elapsed: 297 seconds
+
+
