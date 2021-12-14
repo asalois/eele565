@@ -2,9 +2,12 @@
 # script to compile and run proj
 lscpu
 gcc -lm -Wall -pthread -pg -o par_main.o  pout_main.c
-for i in {1..14}
+for k in {1..3}
 do
-    ./par_main.o $i
+    for i in {1..14}
+    do
+        ./par_main.o $i
+    done
 done
 #./par_main.o 1
 #gprof par_main.o gmon.out > 1t_prof.txt

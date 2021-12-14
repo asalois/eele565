@@ -219,7 +219,9 @@ int main(int argc, char *argv[])
             printf("errs = %lu \nBER = %.3g at %2.3f dB SNR\n\n", signal_array[i].err, BER, snr);
         }
         clock_t stop = time(NULL);
-        printf("Elapsed: %d seconds\n\n\n", (stop - start));
+        int elp = stop - start;
+        printf("Elapsed: %d seconds\n", elp);
+        printf("%d %d (threads time)\n\n\n", num_threads, elp);
         pthread_exit(NULL);
         return 0;
     }
