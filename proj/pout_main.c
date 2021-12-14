@@ -143,30 +143,21 @@ double getSNR(struct signal sig)
 
 void *Sim(void *data)
 {
-    printf("got to Sim\n");
     struct thread_data *t_data;
     t_data = (struct thread_data *)data;
     for (int l = 0; l < t_data->num; l++)
     {
 
-        printf("l= %d\n", l);
         struct signal *sig = t_data->que[l];
         makeNoise(sig);
-        printf("runNum= %d\n", sig->runNum);
         for (int k = 0; k < sig->runNum; k++)
         {
-            printf("k= %d\n", k);
             makeSeq(sig);
-            printf("atfer Seq\n");
             pamMod(sig);
-            printf("atfer mod\n");
             pamDemod(sig);
-            printf("atfer demod\n");
             sig->err += getErr(sig);
-            printf("atfer err\n");
         }
     }
-    printf("got before bar in Sim\n");
     pthread_barrier_wait(&barrier);
 }
 
@@ -188,7 +179,7 @@ int main(int argc, char *argv[])
         int M = 8;
         int rc, i, idx;
         double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
-        uint64_t runNum = (uint64_t)pow(2, 3); // the number of simulations to run
+        uint64_t runNum = (uint64_t)pow(2, 12); // the number of simulations to run
         uint64_t total = size * runNum;        // the total number of data points
         uint64_t bottom = total * log2(M);     // the total number of bits
         for (i = 0; i < num_threads; i++)
@@ -206,13 +197,10 @@ int main(int argc, char *argv[])
             data[idx].num += 1;
         }
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
-        printf("got before bar init in main\n");
         printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
         pthread_barrier_init(&barrier, NULL, num_threads + 1);
-        printf("got after bar init in main\n");
         for (i = 0; i < num_threads; i++)
         {
-            printf("got into pthreads loop in main\n");
             rc = pthread_create(&threads[i], NULL, Sim, (void *)&data[i]);
             if (rc)
             {
@@ -221,7 +209,6 @@ int main(int argc, char *argv[])
                 exit(-1);
             }
         }
-        printf("got before bar in main\n");
         pthread_barrier_wait(&barrier);
 
         for (int i = 0; i < snr_num; i++)
