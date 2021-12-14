@@ -1,5 +1,6 @@
 #!/bin/bash
 # script to compile and run proj
+lscpu
 gcc -lm -Wall -pthread -pg -o par_main.o  pout_main.c
 for i in {1..14}
 do
