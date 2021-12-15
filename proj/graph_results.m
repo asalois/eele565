@@ -10,10 +10,11 @@ clear; clc; close all;
 % xlabel("Number Threads")
 % ylabel("Run Time (seconds)")
 
+
 %% outer loop i9
 run_time= [47,36,109,150,217,228,216,226,229,223,220,224,233,248];
 t= 1:14;
-scale_i9 = run_time/run_time(1);
+scale_i9_single = run_time/run_time(1);
 
 
 figure()
@@ -22,15 +23,55 @@ title("Run Time for outer loop on i9-10900F @ 2^{14}")
 xlabel("Number Threads")
 ylabel("Run Time (seconds)")
 
+%% outer loop i9
+t = 1:14;
+tvt = readmatrix('i9.csv');
+tvt = sortrows(tvt);
+times = reshape(tvt(:,2),3,14);
+%times = [run_time; times];
+md_i9 = mean(times);
+scale_i9 = md_i9/md_i9(1);
 
-%% outer loop r5
-run_time= [54,35,66,99,140,183,250,246,233,232,238,249,276,297];
-t= 1:14;
-scale_r5 = run_time/run_time(1);
+% box plot with 50 per thread count
+% figure()
+% boxplot(times)
+% title("Run Time for outer loop on Hyalite @ 2^{12}")
+% xlabel("Number Threads")
+% ylabel("Run Time (seconds)")
+
 
 figure()
-plot(t,run_time,"-*")
-title("Run Time for outer loop on R5-4600U @ 2^{14}")
+plot(t,md_i9,"-*")
+title("Run Time for outer loop on i9-10900F @ 2^{14}")
+xlabel("Number Threads")
+ylabel("Run Time (seconds)")
+
+%% r5
+tvt = readmatrix('r5.csv');
+tvt = sortrows(tvt);
+times = reshape(tvt(:,2),6,14);
+md_r5 = mean(times);
+scale_r5 = md_r5/md_r5(1);
+
+
+figure()
+plot(t,md_r5,"-*")
+title("Run Time for outer loop on r5-4600U @ 2^{14}")
+xlabel("Number Threads")
+ylabel("Run Time (seconds)")
+
+
+
+%% Hyalite 2^16
+tvt = readmatrix('outer_times_hyalite_16.csv');
+times = reshape(tvt(:,2),50,14);
+md_16 = median(times);
+scale_16 = md_16/md_16(1);
+
+%
+figure()
+plot(t,md_16,"-*")
+title("Run Time for outer loop on Hyalite @ 2^{16}")
 xlabel("Number Threads")
 ylabel("Run Time (seconds)")
 
@@ -49,7 +90,7 @@ scale_14 = md_14/md_14(1);
 
 %
 figure()
-plot(1:14,md_14,"-*")
+plot(t,md_14,"-*")
 title("Run Time for outer loop on Hyalite @ 2^{14}")
 xlabel("Number Threads")
 ylabel("Run Time (seconds)")
@@ -69,23 +110,23 @@ scale_12 = md_12/md_12(1);
 
 %
 figure()
-plot(1:14,md_12,"-*")
+plot(t,md_12,"-*")
 title("Run Time for outer loop on Hyalite @ 2^{12}")
 xlabel("Number Threads")
 ylabel("Run Time (seconds)")
 
 %% scale hyalite
 figure()
-plot(1:14,scale_12,"-*",1:14,scale_14,"-*")
-title("Slow Down")
+plot(t,scale_12,"-*",t,scale_14,"-*",t,scale_16,"-*")
+title("Slow Down on Hyalite")
 xlabel("Number Threads")
 ylabel("time/single thread time")
-legend("Hyalite 2^{12}","Hyalite 2^{14}",'Location','southeast')
+legend("Hyalite 2^{12}","Hyalite 2^{14}","Hyalite 2^{16}",'Location','southeast')
 
 %% scale all 2^14
 figure()
-plot(1:14,scale_14,"-*",1:14,scale_r5,"-*",1:14,scale_i9,"-*")
-title("Slow Down")
+plot(t,scale_14,"-*",t,scale_r5,"-*",t,scale_i9,"-*")
+title("Slow Down at 2^{14}")
 xlabel("Number Threads")
 ylabel("time/single thread time")
 legend("Hyalite","4600U","10900F",'Location','southeast')
