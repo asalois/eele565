@@ -33,9 +33,22 @@ This type of queuing allows to only spawn the number threads specified versus in
 
 ## Overview of mpi in simulation
 ## Results
+The simulations on Hyalite was ran 40 or 50 times to help rid of outliers.
+The simulations on the laptop Ryzen 5-4600U (6c/12t) and desktop Intel i9-10900F (10c/20t) where ran 6 times for the same reason.
+The raw data is on the class github.
+
 ![alt text](r5.png "Title")
 There was only one consistent non negative scaling.
 I believe this was due to clock speed scaling on my laptop.
-It would not boost unless it had at least 2 threads running.     
+It would not boost unless it had at least 2 threads running.
+
+![alt text](scale_14.png "Title")
+As seen above Hyalite scales better than the others on 8 threads and above but falls short on 2 and 3 threads.
+This again could be due to a number of factors, however clock speed fell as the number of threads increased for the laptop and desktop.  
+
+
+![alt text](hyalite_scale.png "Title")
+Here as the number of iterations goes to 2 to 16 the scaling gets worse not better.
+This is the opposite of what was expected, it was thought that if each thread had more work to do it would scale better.  
 
 ## Discussion
