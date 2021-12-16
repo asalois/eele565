@@ -172,13 +172,13 @@ int main(int argc, char *argv[])
         signal_array[i].err = 0;
         signal_array[i].sigma = var[i];
         signal_array[i].runNum = runNum;
-        Sim(&signal_array[i]);
+        Sim(&signal_array[i]); // run simulation
         sim_err = signal_array[i].err;
 
         if (taskid != MASTER)
         {
             mtype = i;
-            rc = MPI_Send(&sim_err, 1, MPI_UINT64_T, MASTER, mtype, MPI_COMM_WORLD);
+            rc = MPI_Send(&sim_err, 1, MPI_UINT64_T, MASTER, mtype, MPI_COMM_WORLD); // send to master 
         }
         else
         {
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
             total_err = 0;
             for (n = 1; n < numtasks; n++)
             {
-                rc = MPI_Recv(&rc_err, 1, MPI_UINT64_T, MPI_ANY_SOURCE, mtype, MPI_COMM_WORLD, &status);
+                rc = MPI_Recv(&rc_err, 1, MPI_UINT64_T, MPI_ANY_SOURCE, mtype, MPI_COMM_WORLD, &status); // receive from all other tasks
                 total_err += rc_err;
             }
             signal_array[i].err = total_err;
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
     }
 
     if (taskid == MASTER)
-    {
+    { // print results
         printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
         printf("Size = %d M = %d threads=%d\n\n", (int)size, M, numtasks);
 

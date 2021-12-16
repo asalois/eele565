@@ -19,7 +19,7 @@
 //#define size 1073741824 //2^30
 
 struct signal
-{
+{ // signal object to operate the data on
     int M;
     int runNum;
     double sigma;
@@ -31,7 +31,7 @@ struct signal
 };
 
 struct thread_data
-{
+{ // make a que of signals
     int num;
     struct signal *que[14];
 };
@@ -123,7 +123,6 @@ uint64_t getErr(struct signal *sig)
             xored = xored >> 1;
         }
     }
-    //printf("err = %lu\n",err );
     return err;
 }
 
@@ -146,8 +145,7 @@ void *Sim(void *data)
     struct thread_data *t_data;
     t_data = (struct thread_data *)data;
     for (int l = 0; l < t_data->num; l++)
-    {
-
+    {// use the signal in data que
         struct signal *sig = t_data->que[l];
         makeNoise(sig);
         for (int k = 0; k < sig->runNum; k++)
@@ -158,13 +156,13 @@ void *Sim(void *data)
             sig->err += getErr(sig);
         }
     }
-    pthread_barrier_wait(&barrier);
+    pthread_barrier_wait(&barrier); // thread is done
 }
 
 int main(int argc, char *argv[])
 {
     clock_t start = time(NULL);
-    int num_threads = atoi(argv[1]);
+    int num_threads = atoi(argv[1]); // get number of threads from cli
     if (num_threads > 14 || num_threads < 1)
     {
         printf("Please pick a value in [1,14]\n");
@@ -172,10 +170,10 @@ int main(int argc, char *argv[])
     }
     else
     {
-        int snr_num = 14;
-        pthread_t threads[num_threads];
-        struct signal signal_array[snr_num];
-        struct thread_data data[num_threads];
+        int snr_num = 14; // the number of variences or snrs to test
+        pthread_t threads[num_threads]; 
+        struct signal signal_array[snr_num]; // signals for each snr
+        struct thread_data data[num_threads]; // data que
         int M = 8;
         int rc, i, idx;
         double var[] = {0.25, 0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02, 0.015, 0.0125, 0.01};
@@ -192,13 +190,13 @@ int main(int argc, char *argv[])
             signal_array[i].err = 0;
             signal_array[i].sigma = var[i];
             signal_array[i].runNum = runNum;
-            idx = i % num_threads;
+            idx = i % num_threads; // pick the correct data que
             data[idx].que[data[idx].num] = &signal_array[i];
             data[idx].num += 1;
         }
-        printf("nRuns = %.3e nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
+        printf("nRuns = %.3MPI_ANY_SOURCEe nPoints = %.3e nBits = %.3e\n", (double)runNum, (double)total, (double)bottom);
         printf("Size = %d M = %d threads=%d\n\n", (int)size, M, num_threads);
-        pthread_barrier_init(&barrier, NULL, num_threads + 1);
+        pthread_barrier_init(&barrier, NULL, num_threads + 1); // set barrier 
         for (i = 0; i < num_threads; i++)
         {
             rc = pthread_create(&threads[i], NULL, Sim, (void *)&data[i]);
@@ -209,10 +207,10 @@ int main(int argc, char *argv[])
                 exit(-1);
             }
         }
-        pthread_barrier_wait(&barrier);
+        pthread_barrier_wait(&barrier); // wait until all threads are done
 
         for (int i = 0; i < snr_num; i++)
-        {
+        {// print results
             double snr = getSNR(signal_array[i]);
             double BER = (double)signal_array[i].err / (double)bottom;
             printf("sigma = %f\n", signal_array[i].sigma);
