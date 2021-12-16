@@ -119,13 +119,34 @@ xlabel("Number Threads")
 ylabel("Run Time (seconds)")
 saveas(gcf,"hyalite_12.png")
 
+%% Hyalite 2^12
+tvt = readmatrix('mpi.csv');
+times = reshape(tvt(:,2),50,13);
+md_mpi = median(times);
+scale_mpi = md_mpi/md_mpi(1);
+
+% box plot with 50 per thread count
+% figure()
+% boxplot(times)
+% title("Run Time for outer loop on Hyalite @ 2^{12}")
+% xlabel("Number Threads")
+% ylabel("Run Time (seconds)")
+
+%
+figure()
+plot(2:14,md_mpi,"-*")
+title("Run Time for mpi on Hyalite @ 2^{14}")
+xlabel("Number Threads")
+ylabel("Run Time (seconds)")
+saveas(gcf,"hyalite_mpi_14.png")
+
 %% scale hyalite
 figure()
-plot(t,scale_12,"-*",t,scale_14,"-*",t,scale_16,"-*")
+plot(t,scale_12,"-*",t,scale_14,"-*",t,scale_16,"-*",2:14,scale_mpi,"-*")
 title("Slow Down on Hyalite")
 xlabel("Number Threads")
 ylabel("time/single thread time")
-legend("Hyalite 2^{12}","Hyalite 2^{14}","Hyalite 2^{16}",'Location','southeast')
+legend("Hyalite 2^{12}","Hyalite 2^{14}","Hyalite 2^{16}","Hyalite MPI 2^{14}",'Location','southeast')
 saveas(gcf,"hyalite_scale.png")
 
 %% scale all 2^14
